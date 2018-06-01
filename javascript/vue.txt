@@ -1,0 +1,45 @@
+   <div id="app">
+  <p>{{ foo }}</p>
+  <!-- 这里的 `foo` 不会更新！ -->
+  <button @click="foo = 'baz'">Change it</button>
+	</div>
+    <body>
+    <script type="text/javascript">
+    var obj = {
+    		  foo: 'bar'
+    		}
+
+
+	new Vue({
+	  el: '#app',
+	  data: obj
+	})
+    </script>  
+	
+	这个例子中，点击时foo的值变为baz
+	
+	
+	var data = { a: 1 }
+var vm = new Vue({
+  el: '#example',
+  data: data
+})
+
+vm.$data === data // => true
+vm.$el === document.getElementById('example') // => true
+
+// $watch 是一个实例方法
+vm.$watch('a', function (newValue, oldValue) {
+  // 这个回调将在 `vm.a` 改变后调用
+})
+
+这个例子中，是不是意味着data是全局变量，emmm	data是包装了之后的对象
+
+
+<span v-once>这个将不会改变: {{ msg }}</span>
+只会绑定初始值，后面变化了不会再改
+
+<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+能够输出脚本语言
+
+Mustache 语法不能作用在 HTML 特性上，遇到这种情况应该使用 v-bind 指令：

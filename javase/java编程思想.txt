@@ -1,0 +1,5 @@
+chapter1
+	上溯造型：我们知道Circle属于Shape的一种类型，所以上溯造型是安全的
+	下溯造型：我们不知道一个Object是Circle还是什么(集合当中)
+	
+	CGI：通用网关接口

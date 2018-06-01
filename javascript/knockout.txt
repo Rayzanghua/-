@@ -1,0 +1,84 @@
+
+
+
+
+
+computed参数
+
+
+
+
+ko.applyBindings(myViewModel, document.getElementById('someElementId'))
+	它限制了只有ID为someElementId的元素才能激活使用KO功能，当你在一个页面中声明了多个View Model来绑定不同的界面区域时，这样限制是很有好处的。
+	有问题
+		当只有多个id同时绑定的时候，他才会有效果
+		
+var myViewModel = {
+		personName: ko.observable('Bob'),
+		personAge: ko.observable(123)
+		};
+		
+		声明为这种格式才会自动检测变化
+		可读	myViewModel.personName()	返回Bob
+		可写	myViewModel.personName('cupid')		名字设为cupid		通过这种方法可以随时修改数据
+		链式调用	myViewModel.personAge(11).personName('cupid');
+		
+监控属性的显示订阅
+	还没看
+	
+监控数组
+
+使用计算属性上
+	var viewModel = {    
+		price: ko.observable(24.95)  
+		};  
+	viewModel.priceRating = ko.computed(function() {    
+	return this.price() > 50 ? "expensive" : "affordable";  
+	}, viewModel);
+	
+	问题已经解决
+	
+Text绑定的虚拟元素的概念
+	不是很清楚
+	
+css绑定
+	具体来修改css样式没有写
+	通过写style绑定，应该是一样的
+	
+	如果你需要应用font-weight或者text-decoration，你不能直接使用，而是要使用style对应的JavaScript名称。
+
+	错误：{ font-weight: someValue }; 正确：{ fontWeight: someValue }
+
+	错误：{ text-decoration: someValue }; 正确：{ textDecoration: someValue }
+	
+foreach绑定中
+	this
+	
+	明白了虚拟元素，就是有时候例如循环，我们自己创建一个元素，实现循环
+	循环隐藏某些标记为删除的元素，但没有真是删除的元素
+	
+	绑定某个对象的某一个属性？？？
+		直接加.		由于这里之前绑定了一个对象，导致遇到问题
+		
+	给的例子有问题
+	
+if绑定
+	与visible binding类似，都可以控制一段内容是否出现在页面中。
+
+	与visible不同的是，if binding是真正的控制Html标签是否出现在DOM中，如果绑定的值为false,则Html标签不会出现在页面中。
+
+	if绑定会修改DOM结构，所以出于性能考虑，不应该频繁修改if的绑定值。（这种情况应该使用visible binding）
+
+	如果与observable或者computed属性绑定，则会产生双向绑定效果。
+	
+	不好理解？？？
+	
+click绑定
+	默认阻止事件冒泡
+	高级的没有看
+	
+	绑定参数与函数的区别
+	
+	
+	
+		

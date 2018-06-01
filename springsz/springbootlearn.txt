@@ -1,0 +1,107 @@
+MockServletContext测试类
+定时器的源码
+Async异步的源码
+springboot1.5新特性，动态修改日志级别
+
+
+2-1-2
+	启动监听器，springboot中的
+2-2-1
+	Binder的使用是什么鬼
+3-1-5
+	swagger2的一些配置
+3-1-6
+	统一异常处理，可以统一返回页面或者返回信息，拦截哪种类型的异常
+	两个重要的注解
+		@ExceptionHandler(value = MyException.class)
+		@ControllerAdvice
+3-1-7		
+	不清楚
+3-2-1	
+	配置好了mysql的连接，直接自动注入JdbcTemplate即可
+3-2-2	
+	需要结合pojo的注解，配置文件加个一行，继承JpaRepository，部分方法已经实现了
+3-2-3	
+	多数据源的配置(不是生产和测试环境，是一个系统中使用到了多个数据库)，同时可以看到JdbcTemplate是怎么根据DataSource来配置的
+3-2-4
+	需要相对独立的pojo，DataSource(这个和上面一致)，然后通过Config构建JPA的Repository,配置比较复杂
+3-2-5
+	redis
+3-2-9
+	使用Flyway来管理数据库，注意是启动之前执行sql文件
+3-2-10
+		LDAP，看上去很厉害的样子，轻量级访问
+4-1-1
+	定时器，是怎么通过那个配置启动的
+	任务->JobDetail(配置执行方法)->触发器(执行时间)->调度工厂(可以配置多个触发器)
+	springboot的更加简单，启动注解，配置一个Task任务(通过注解)
+4-1-2
+	通过给方法加上@Async异步
+4-1-2
+	通过配置将任务交给线程池来执行	
+4-1-3	
+	线程池如果正确关闭的配置
+4-2-1
+	可以配置日志储存路径，日志记录级别在pro文件中，默认使用Common Logging日志
+4-2-3
+	选择日志的级别，不同的pro选择
+4-2-4
+	默认是使用标准java启用了aop的，如果需要cglib就要配置
+	@Order(),切面的优先级
+4-2-6
+	动态日志级别修改??
+4-3-1
+	springsecurity
+	
+	
+	
+	
+jdbc没有包装吗	
+context-path的配置怎么说
+第四章
+5   beatlsql：下次看的时候直接导入工程，自己新建有问题
+6	mybatis整合
+	使用它的例子mapper报错
+7
+	集成xml配置
+
+
+非官方教程学习
+
+25
+	controller默认的话应该放在与application同一个包下面	
+	配置了yml文件没有作用？配置pro文件有效果
+		正确配置为	
+		server:
+		  port: 8080
+		  servlet:
+			context-path: /springboot
+	jpa后面的没有写
+1	
+	mvn clean 
+		删除target目录
+	mvn package
+		打包到target目录
+	mvn spring-boot:run
+		启动项目，应该就是执行下面这个命令
+	可以进入到target目录，对jar文件执行 java -jar xxx.jar
+2	
+	配置文件
+		spring.profiles.active=prod
+		server.port=8888
+3	mysql数据库	
+	注意还要导入数据库连接池和数据库驱动，没有包装吗？
+	JdbcTemplate使用，pojo不需要注解，注入JdbcTemplate就行了
+4   整合JPA
+	与HIbernate有关，暂时没看
+	大致就是pro配置，然后实体类加注解，dao层接口基础JpaRepository，web层直接调用dao层接口
+5 	beatsql
+6 	mybatis
+	引入pom，然后配置mapper就可以了
+7	事务
+		添加事务注解在service层，前提是你使用的是常用的orm框架
+10 	使用spring Restdocs创建API文档
+			
+17	处理文件下载上传		
+
+22	springboot多模块	

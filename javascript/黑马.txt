@@ -1,0 +1,176 @@
+基础1
+	var v;		//underfined	未初始化，但在内存中是存在的
+	var v=null;		//可以用来销毁变量，在内存中找不到这个变量的
+	
+基础2
+	学习的代码调试
+	
+基础3
+	学习了数组中的方法
+高级1
+	javaScript中字符串也是不可变的对象
+	
+	Boolean();
+	parseInt();
+	
+	||	&&	短路的
+		如果连接有个数值类型就是数值
+		
+06高级
+	var f=new Function("console.log('ee');");
+	
+07高级
+	回调函数
+		一般用于定义一个规则来使用
+		(function(){})()
+		
+		function f1(v1,v2,demo){
+			return demo(v1,v2);
+		}
+		
+		f1(1,2,function(v1,v2){return v1+v2;})
+		
+08高级
+	json的就是key为字符串的字面量
+	var a={"name":'cupid'};	
+	只能通过for  in 取出来，要获取值则a[key]不能是a.key
+	
+	一般来说遍历json用for in，数组用普通的
+	
+	数组的部分api，插入删除，从前面插入，从前面删除
+		sort
+			可以传入一个函数，按照某种排序规则
+		slice(开始位置，结束位置);
+			截取数组
+		splice
+			和上面一样的使用方法，不过会对原数组产生影响
+		indexof
+			返回索引值
+		every
+			传入一个函数，检查所有元素是否满足某个条件
+		filter
+			筛选满足的元素，返回数组
+		foreach
+			没有返回值，只是操作元素
+		map
+			返回一个数组，每个元素都是回调的结果
+		some
+			只要有一个通过，就返回true，默认还是false
+			
+		清除数组
+			splice(0);
+			arr=[];
+			arr.length=0;	//伪数组不能用
+			
+			
+dom1	文档对象模型 Document Object Model
+	通过id，标签，class获取元素
+	<a href='#'>xx</a>	不加#会刷新页面
+	
+	获得节点的子节点，下一个，上一个
+	
+	创建节点
+		createElement
+	添加
+		appendChild()	//可以指定某个元素之前
+	删除
+		removeChild()	//指定删除某个节点
+	克隆
+		cloneNode(true/false)		//深层次或者浅层次复制
+	属性的操作
+	
+dom10
+	Onblur
+		失去焦点事件
+		
+	下拉框
+		option 的selected属性为selected，默认选中
+		默认都没有就是第一个选中
+		
+		
+	nodeName
+		元素节点名字
+	nodeValue
+		文本节点的值，属性的是属性值
+	nodeType
+		节点的性质，元素 1，属性 2，文本 3
+	
+dom12
+	BOM
+		navigator
+		location
+		history
+	定时器
+		setInterval()	循环定时器
+			var s=setInterval(function(){console.log('e');},1000)
+		setTimeout()	炸弹定时器
+		clearInterval()	
+			clearInterval(s)
+			
+	字符串的方法
+		encodeURIComponent()
+			重新编码
+		decodeURIComponent
+			反编译
+		splice(start,end)
+			截取
+		split()
+			截取做数组
+			
+	事件监听原理
+	
+js特效
+	offsetLeft
+	
+jquery
+	 $(document).ready(function () {}	//文本加载完毕就执行函数
+	 $(window).ready(function () {}	//等待所有资源加载完毕
+	 window.onload	//等待所有资源加载完毕
+	 
+	 var div=$('div')	//jquery对象转为js对象
+	 
+	 获取内容
+		$().text()		//获取内容		不会包括标签内容
+			.innHTML()	//识别标签		包括标签也会打出来
+			.html()		//识别标签
+		
+		
+	多库共存问题
+		var new=$.noConflict(true);
+		
+	插件
+	
+高级1
+	var isExixt=xx in obj;	//name默认在window有变量
+	数组是判断索引是否存在而不是值
+			
+	delete 删除的属性在原型当中返回true，但是不删除
+		如果删除的是不存在的属性返回true
+		那啥时候返回false啊？？？
+		
+	条件断点，尤其是for的时候
+	
+高级2
+	构造函数如果返回的是Object类型，就是返回这个类型，值类型不会影响
+	
+	js提供了两个方法来调用其他对象的方法
+		call	
+		apply 接收一个数组
+		
+	Object.prototype.toString.call(想获取类型的对象)
+		获得具体类型
+		
+	如果只调用了构造函数，那么将会变成全局变量
+	
+	prototype是构造函数的属性，跟对象没有关系
+	
+高级三
+	 
+	
+高级四
+	 
+	
+	 
+	
+高级6
+	settimeout，先要等待for语句执行完，再执行里面的函数

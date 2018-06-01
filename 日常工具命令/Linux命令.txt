@@ -1,0 +1,109 @@
+cd -           回到上一次操作路径（最近两次)
+Tab 补全
+ctrl+a 快速定位行头
+ctrl+e 快速定位行尾
+ls -a 显示隐藏的文件
+ls -l 以列表形式输出
+ls -l -h 带单位显示列表
+ls -l -h -a 你懂得
+ls *.py 显示后缀名为py的文件
+ls ?.py ？表示一个字符
+ls [12].py 表示从括号里面选一个
+ls [1-9].py 
+ls \*.a    \表示转义
+ls -alh >test.txt 重定向   会清除原来的内容
+ls -alh>>test.txt 不会清除原来的内容
+more test.txt 显示文件内容 如果过多，显示一面
+touch 1.txt 创建文件         Linux没有后缀名
+gedit test.txt 用gedit打开文件
+ls -alh | more
+mkdir haha 创建文件夹
+mkdir A/B/C -p 创建一个文件夹
+rmdir /home/cupid/t.txt 删除文件夹 但是不能删除非空的文件夹
+rm 1.txt删除文件直接删
+rm -r A删除文件夹
+rm -f 强制删除文件没有提示
+rm 1.txt -i 删之前提醒
+ln -s 1.py 111s.py 创建软连接   1.py目标文件 后面连接文件
+ln 1.py 112.py 硬连接
+cat 1.py 不会分页
+cat 1.py 2.py 合并两个输出
+grep -n 'a' greptest.txt 将文件里面带a的都显示出来
+grep -i 'a' greptest.txt 忽略大小写
+grep -n -v 'a' greptest.txt 取反
+^a 	以a开头
+a$  以a结尾
+history 查看使用历史记录
+find ./ -name '*a' 查找当前文件夹下以a结尾的文件
+find / -size +2k -2M 查找根目录下小于2M大于2k的文件
+cp 0* ./a 普通复制
+cp 0* ./a -a 强制复制
+cp a b/ -r 强制复制文件夹
+cp a/* b/ -v 带进度拷贝
+mv 1.txt 2.txt 重命名
+mv 1.txt B 剪切
+tar -cvf test.tar * 打包
+tar -xvf test.tar	解包
+gzip Test.tar 压缩
+gzip -d Test.tar.gz 解压缩
+tar -zcvf test.tar.gz * 直接一步
+tar -zxvf test.tar.gz 一步解压缩
+
+chmod u+x test.txt	增加
+chmod g-w test.txt 减去权限
+chmod a=rwx A u,g,o都添加所有权限
+chmod 777 A 只会修改A的权限
+chmod 777 A -R修改A文件夹下的所有权限
+
+
+ifconfig 查看IP地址
+
+ssh cupid@192.168.17.76  远程登录
+who 查看当前登录用户
+exit 退出登录
+useradd laowang -m -d /home/laowang -m自动创建 -d指定
+su 需要切换的用户名
+su -切换用户后还会主动跳转到该用户的家目录
+userdel abc 删除用户
+
+sudo -s 转为root
+groupmod +三次tab
+
+
+cal 日历
+top 查看进程
+kill 杀死进程
+kill -9 强制杀死
+reboot shutdown 
+df 查看硬盘使用情况
+du 当前文件有多大
+mount 挂载命令
+tail -f catalina.out 
+
+i,o,a			i光标前面插入  a光标后入插入  r替换 R替换后面的
+I 行头  A 行尾 O在上面
+命令模式下 shift+zz 退出vi
+：wq 保存退出 q!强制退出 ：x 保存退出
+命令模式下 h 左 j下 k上 l右
+M中间  L末尾
+G文件最后一行  G1第一行 gg第一行
+x 删除后面 X删前面
+shift+<< 左缩进
+shift+>> 
+.代表刚刚执行的命令
+vi 1.py 22
+v 选中几行
+3 yy 从当前行复制三行  p粘贴
+2 dd 剪切  p粘贴   不加数字默认一行
+u 撤销
+：1.5s/itcast/china/g    vi中替换
+ctrl+r 反撤销
+/TRUE 命令模式下查找 n下一个 N上一个
+:%s/abc/123/g 光标所在文件替换abc为g
+:1,10s/abc/123/g
+
+%s/^/#/g  所有行开头加个#  1,7/^/#/g
+%s/#//g  去掉
+apt -get install
+	
+

@@ -1,0 +1,26 @@
+insert into emp values (3,'cup','aa',111,null,12.1,33,2);
+
+set session/session transaction isolation level read uncommitted/read committed/repeatable read/serializable;
+
+insert into order_ values(null,'aaccc');
+
+start transaction;
+
+
+事务？？？
+
+create table mytbl(   
+    id int primary key,   
+    name varchar(50)   
+)engine=InnoDB;
+
+insert into mytbl values (1,'a');
+
+select @@tx_isolation;
+select @@global.tx_isolation;
+
+
+create table account(
+	name varchar(10),
+	money int
+)engine=InnoDB;

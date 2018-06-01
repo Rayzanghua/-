@@ -1,0 +1,67 @@
+01
+	通过synchronize来修饰子类和父类的方法也是安全的
+	
+	处理多线程异常时如果不是一个整体的就处理，例如continue
+		如果是一个整体就跑出运行时异常或者打断异常
+		
+	不要修改锁，对象锁里面属性变了不要紧
+	
+	volatile保证可见性
+		经典例子
+			boolean flag=true;	//线程1
+			while(flag){}	//线程1
+			flag=false;		//线程2
+		当线程2没来得及刷新到主线程里面的时候，就会出现死循环，
+		发现如果while里面空循环就会出现死循环
+		
+	copyonwrite容器
+		写的时候用的是复制的，适用于写少读多的时候
+		
+	DelayQueue
+		这个例子不错
+	SynchronousQueue
+		该容器没有容量，每次操作等待另一个线程的对应移除操作
+		
+02
+	future模式
+		异步，返回一个包装对象，后台异步加载数据，java jdk封装实现了
+	master-work模式
+		对应004
+	
+	Executors框架，创建的几个不同种类的线程池
+		该框架中有定时器的那种实现
+		spring中也有	定时器
+		如果是无界队列 那么max就没用了
+		
+03
+	fork/join
+		只是知道将大任务分为若干个小任务
+	countdown
+	CyclicBarrier
+		等待都执行完
+	Future类
+		get方法
+	ReentrantReadWriteLock
+		读多写少，允许多个线程同时读，但只有一个线程单独写，只有读可以并行 
+
+04
+	disruptor	最强的JMS消息框架 无锁机制
+	
+011
+	如果不在方法里面定义对象是否也符合流程图
+	
+	串行和并行垃圾回收器的区别
+		并行垃圾回收器针对吞吐量的提高
+		
+	CMS
+		针对提供gc停顿
+		
+14 linux
+	vim
+		A行末尾添加
+		i当前位置
+		x删除当前
+		nx删除n个
+		dd删除一行
+		yy复制，然后p就可以了
+		:%s/old/new/g 替换

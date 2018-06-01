@@ -1,0 +1,364 @@
+关系型数据库把所有的数据都通过行和列的二元表现形式表示出来
+nosql数据库将数据存储于缓存之中
+
+RAC		oracle的集群：
+	real application cluster	
+	Load Balance	负载均衡
+	Fail Over	失败迁移
+	
+事务四大特性ACID：
+	原子性 Atomicity
+	一致性	Consistency
+	隔离性	Isolation
+	持久性	Durability
+	
+默认有事务
+mysql 需要手动开启：
+	START TRANSACTION
+
+where > group by >having
+
+DML	data manipulation language 数据操作语言:
+	select update insert delete
+DDL data definition language:
+	create alter drop truancate
+DCL data control language:
+	commit rollback set transation
+	
+	sqlplus sys/sys as sysdba
+	
+sqlpuls
+sys@XE as SYSDBA
+sys
+
+创建用户：
+	create user cupid identified by admin;
+	赋予权限：
+		grant create session to cupid;
+		grant unlimited tablespace to cupid;
+		grant create table to cupid;
+		grant insert on tablename to cupid;
+		grant update on tablename to cupid;
+		grant create trigger to cupid;
+
+只有一个数据库	下面有多个用户	用户下面有多个表
+
+学习文档 Oracle
+
+select empno as "员工号",ename "姓名",sal 月薪,
+如果要用特殊名称做别名要加引号
+
+select 'h'||'e' from emp;
+
+sql调优：
+	从右往左
+
+null:
+	
+	如果集合中含有null，不能使用not in；但可以使用in
+
+
+		
+	空值在后面：
+		select * from order by xx desc nulls last;
+		
+		select ename,NVL(comm, -1) from emp;
+		
+		select sum(comm)/count(*) i1,sum(comm)/count(comm) i2,avg(comm) from emp;
+		二三一样,如果有为空的
+		
+		select count(*), count(nvl(comm,0)) from emp;
+	
+	
+修改sql：
+	c /xx/xxa
+
+约束：
+	primary key 
+	not null
+	unique
+	check(age >0)
+	constraint order_id_pk foreign key(id)  references order_de(id)
+	
+视图：
+	create view v1 as select * from emp;
+	不建议通过视图来修改表数据，因为会有很多限制
+	
+
+	
+序列：
+	Create 创建
+
+	Sequence 序列 seqEmop 序列名称
+
+	Increment by 步长
+
+	Stat with 1 开始值
+
+	Maxvalue  最大值
+
+	Minvalue  最小值
+	
+	myseq.nextval	myseq.currval
+	
+	序列产生裂缝的原因：
+		回滚	系统异常	多表公用
+	
+执行计划：	
+	explain plan for select * from emp;
+	select * from table(dbms_xplan.display);
+	
+
+索引：
+	 create index 索引名 on 表名(列名); 
+	 B树 索引 默认
+	 位图
+	 
+同义词：	
+	create public synonym table_name for user.table_name;
+	
+PL/SQL:
+
+	declare
+	--说明部分
+	begin
+	--程序
+		dbms_output.put_line('Hello World');
+	end;
+	/
+
+	set serveroutput on
+	/
+	
+	declare
+		pename emp.enmae%type;
+	begin
+		select ename into pename from emp;
+		dbms_output.put_line(pename||'xxxx')
+	end;
+	
+	declare
+		emp_rec emp%rowtype;
+	begin	
+		select * into emp_rec from emp;
+		dbms_output.put_line(emp_rec.ename||'xxx'||emp_rec.xxx)
+	end;
+	
+	输入函数：
+		
+		--num是一个地址值
+		accept num prompt '请输入一个数据';
+		declare
+			pnum number :=&num;
+		begin
+			if pnum=0 then dbms_output.put_line('xxx');
+			elseif pnum-1 then dbms_output.put_line('aaaa');
+			else dbms_output.put_line('cccc');
+		end if;
+		end;
+	
+	循环函数：
+		
+		declare
+			pnum number :=1;
+		begin	
+			loop
+			exit when pnum >10;
+			dbms_output.put_line(pnum);
+			pnum :=pnum+1;
+			end loop;
+		end;
+		
+	光标：
+		declare
+			cursor cemp is select ename from emp;
+			pename emp.ename%type;
+		begin
+			open cemp;
+			
+			loop
+				fetch cemp into pename;
+				exit when cemp%notfound;
+				
+				dbms_output.put_line(pename||'');
+				
+			end loop;
+			close cemp;
+		end;
+	
+		declare 
+		  --定义光标
+		  cursor cemp is select empno,job from emp;
+		  pempno emp.empno%type;
+		  pjob   emp.job%type;
+		begin
+		  rollback;  
+
+		  --打开光标
+		  open cemp;  
+		  loop
+			   --取一个员工
+			   fetch cemp into pempno,pjob;
+			   exit when cemp%notfound;
+			   
+			   --判断职位
+			   if pjob = 'PRESIDENT' then update emp set sal=sal+1000 where empno=pempno;
+				  elsif pjob = 'MANAGER' then update emp set sal=sal+800 where empno=pempno;
+				  else update emp set sal=sal+400 where empno=pempno;
+			   end if;
+
+		  end loop;
+		  --关闭光标
+		  close cemp;
+		  
+		  --提交  ----> why?: 事务 ACID
+		  commit;
+		  
+		  dbms_output.put_line('完成');
+		end;
+		/
+	
+	PL/SQL不能处理所有异常，除非自己解决
+	异常：
+		declare
+			pnum number;
+		begin
+			pnum :=1/0;
+		exception
+			when zero_divide then dbms_output.put_line('0不能为分母');
+			when value_error then dbms_output.put_line('算术错误');
+			when others then dbms_output.put_line('其他意外');
+		end;
+	
+	自定义异常：
+		declare
+			cursor cemp is select * from emp;
+			pename emp.ename%type;
+			
+			no_emp_found exception;
+		begin
+			open cemp;
+			
+			fetch cemp into pename;
+			if cemp%notfound pename;
+			if cemp%notfound then
+				raise no_emp_found;
+			end if;
+			
+			close cemp;
+			
+		exception
+			when no_emp_found then dbms_output.....
+		end;
+		
+	练习PL/SQL：
+		declare
+			cursor cemp is select to_char(birthday,'yyyy') from emp;
+			phiredate varchar2(4);
+			
+			count80 number := 0;
+			count81 number := 0;
+			count82 number := 0;
+			count87 number := 0;
+		
+		begin
+			open cemp;
+			loop
+				fetch cemp into phiredate;
+				exit when cemp%notfound;
+				
+			if phiredate='1980' then count80:=count80+1;
+				elseif ....
+				else ...;
+			end if;
+		end loop;
+		close cemp;
+		dbms_output.put_line(count80);
+		...
+		end;
+		
+		declare
+			cursor cemp is select empno from emp order by sal;
+			pempno emp.empno%type;
+			countEmp number:=0;
+			salTotal number;
+			
+		begin
+			select sum(sal) into salTotal from emp;
+			
+			open cemp;
+			loop
+			
+				exit when salTotal>50000;
+				fetch cemp into pempno,psal;
+				exit when cemp%notfound;
+				
+				update emp set sal=sal*1.1 where empno=pempno;
+				countEmp:=countEmp+1;
+				salTotal:=salTotal+psal*0.1
+				
+			end loop;
+			close cemp;
+		end;
+		
+	存储过程：
+		create or REPLACE PROCEDURE sayhelloworld
+		as
+		  --说明部分
+		begin
+		  dbms_output.put_line('hellorworld');
+		  
+		end;
+		/
+		
+		exec sayhelloworld();
+		
+		create or replace procedure queryEmp(eno in number,
+												pename out varchar2)
+		is
+		begin
+			select pename from emp where empno=eno;
+		end queryEmp;
+		
+	存储函数：
+		create or replace function queryEmpIncome(eno in number)
+		retrun number
+		is
+			
+		begin
+		
+		end queryEmpIncome;
+		
+	如果只有一个返回值就用存储函数，否则使用存储过程
+	
+	创建包：
+		create or replace package mypackage is
+			type empcursor is ref cursor;
+			procedure queryEmp(dno in number,empList out empcursor);
+			
+		end mypackage;
+		
+		create or replace package body mypackage is
+			procedure queryEmp(dno in number,empList out empcursor)
+			as
+			begin
+				open empList for select * from emp where
+			end;
+			
+		end mypackage;
+		
+	创建触发器：
+		create trigger 
+		--或则after insert
+		insert
+		on emp
+		--行级触发器
+		for each row
+		declare
+		begin
+			dbms_output.put_line('ssss')
+		end;
+		/
+			
+		
+

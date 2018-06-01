@@ -1,0 +1,63 @@
+递归函数
+	select * from emp start with empno=7369 connect by prior mgr=empno;
+	可以向下或者向上查询 	
+case when
+		select t.*,(case deptno when 10 then 'xxx' when 20 then 'zzz' else 'yyy' end) as "te" from emp t
+查看session的会话隔离级别就是v$transaction 里查看，沒有任何事務的情況下這個視圖是沒有任何東西的..
+	select * from v$transaction
+select * from A for update nowait;	
+select * from A for update wait 5;
+oracle会自动解决死锁问题
+杀死用户	
+	select * from v$lock;
+	select sid,serial# from v$session where sid=170;
+	alter system kill session 'sid,serial'; 
+索引
+		通过rowId来维护行
+	这三种情况需要索引优化
+		height>=4
+		pct_used<50%
+		del_lf_rows/lf_rows>0.2
+	查看执行计划
+		set autotrace traceonly explain;
+	analyze index ind_1 validate structure;
+	select name,height,pct_used,del_lf_rows/lf_rows from index_status;	--要现分析再执行这条语句
+	alter index ind_1 rebuild;	--在线解决索引重建问题
+	mysql水平拆分(分片)
+oracle分区
+物化视图
+中间表方案
+设计的方案 
+索引
+	建立规则索引 
+物化视图
+	相对于视图而言，他是一张表，是占用数据库磁盘的
+	手动刷新，自动刷新	
+	create materialized view mv_name as select * from table_name;	--参考，一共分为两种刷新模式，刷新模式又分为几个子类
+	需要字段id，记住
+同义词
+	schema的概念，与user的关系
+	https://www.cnblogs.com/panxuejun/p/6755532.html	可以参考，其实类似跨用户访问 
+	create public synonyn aaa to hr.employees;
+	grant select on aaa to scott;
+	select * from aaa;--另外一个查询 
+flashback闪回	 
+DBLink
+	两个数据库之间查询 
+创建表空间，用户，查看表空间使用率 
+oracle拆分理解
+	先是垂直拆分，将一个系统拆分到不同的数据库中，根据不同的业务(简单点就是表)
+	水平拆分，就是一个表拆分成多个 
+mysql中的拆分	
+range分区	区域分区
+	建表的时候指定分区
+	partition by range(sale_count){partition p1 values less than(1000),partition p1 values less than(2000)}
+	分区只能按照分区的字段加索引，如果建了其他索引字段是全局索引
+	如果数据修改超过了分区的范围？
+list分区
+	按照字段的枚举值
+间隔分区
+		11g的新技术
+		http://blog.itpub.net/29487349/viewspace-1087264/
+分区里面可以套分区
+删除表之后，分区还是存在的，oracle有多种恢复操作	

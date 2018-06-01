@@ -1,0 +1,30 @@
+response.getWriter().write("hello")	调用多次只会返回第一个
+
+
+ jsp:
+	D:\tools\jsp\tomcat\Tomcat 6.0\work\Catalina\localhost\database\org\apache\jsp
+	
+	<%-- 注释--%>
+	
+	
+	web.xml配置错误页面：
+	<error-page>
+		<exception-type></exception-type>
+		<location></location>
+	</error-page>
+	
+	通过配置<%@ isErrorPage="" %>  获取内置的隐士对象Exception
+	Request Session Response  page Application(servlet Context) Exception Config Out pageContext 
+	<%@ pageEncoding="" contentType="text/html; charset=UTF-8" %> 指定翻译成servlet用的码表
+	
+	out:对象带有缓冲  如果没有模板内容 out对象就不会输出（空白也算）
+	
+	pageContext:pageContext.forward();
+	
+	<%@ include file="" %>静态引用   //注意发送的html是否是格式良好的
+	request.getRequestDispatcher("").include(request, response);  <jsp:include page="" />//动态包含
+	引入的时候<%@ session="" %> 不能设置冲突
+	
+	<jsp:forward page="">
+	<jsp:param value="" name=""/>
+	</jsp:forward>

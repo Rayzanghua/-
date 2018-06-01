@@ -1,0 +1,46 @@
+创建数据库：
+	注意该dmp是不存在的
+	CREATE TABLESPACE sean LOGGING DATAFILE 'D:\tempfiles\workspace\0418\fsyth_2018_0329.dmp' SIZE 100M AUTOEXTEND ON NEXT 32M MAXSIZE 500M EXTENT MANAGEMENT LOCAL
+jdbc：
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+		String user 	= "sys as SYSDBA";
+		String passwd	= "sys";
+		String url = "jdbc:oracle:thin:@localhost:1521:XE";
+		Connection conn= DriverManager.getConnection(url,user,passwd);
+		
+
+with as的使用，使用一张表作为临时表
+not的使用
+	select * from sys_usermanage where not(org_type like '002')
+order by：
+	多个排序字段用逗号隔开
+	如果想让null值最先nulls first	最后nulls last	
+oracle 一些内置的函数
+	详见ppt
+	单行函数
+		查询系统当前时间
+			select  sysdate from dual			
+		转换函数
+			日期转为字符串	等等等等
+			select  to_char(sysdate,'yyyy:mm:dd') from dual			
+		通用函数
+			空值和任何数计算都是空值				nvl(comm,0)	
+	 字符串函数
+		lpad	左填充 rpad 右		
+		trim(' ' from 'dddd  dfd')
+			去掉前后字符		
+	多行函数
+		count(*) 不建议使用* ，应该使用具体的列	提高性能
+spool off 		oracle录屏的命令，文本文件
+save point a;	--定义保存点
+rollback to savepoint a;
+条件表达式
+	decode(job,'clerk','嗯嗯','boss','啊啊');
+分页查询	
+	SELECT * FROM   
+	(  
+	SELECT A.*, ROWNUM RN   
+	FROM (SELECT * FROM MA_ELE_BIS) A   
+	WHERE ROWNUM <= 40  
+	)  
+	WHERE RN >= 21   	

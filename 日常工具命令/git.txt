@@ -1,0 +1,77 @@
+分支管理--暂时学到
+
+git的本地仓库在哪呢？
+可以通过new  branch 然后修改了几次之后再merger到master主分支上面
+如果遇到了冲突，就需要进入team工作台marked as merged,然后再提交
+
+遇到了远程上传http失败，点击然后save就可以了
+
+fork项目之后可以pull给作者，这时候作者就会有提示。
+	pull and request 在github上
+	
+day1	
+表示该机器上所有仓库默认使用这个配置
+	git config --global user.name "Rayzanghua"	
+	git config --global user.email "2424896931@qq.com"
+	git init
+	
+	git add <file>
+		添加到仓库
+	git commit -m <message>
+		提交到仓库,每次修改都先要add在commit，add可以多个文件，commit一次就可以了
+		add到暂存区，commit到仓库，commit只是提交暂存区的
+	
+	git status
+		可以告诉我们仓库当前的状态
+	git diff
+		是查看暂存区与工作区的不同
+	git log
+	git reset --hard HEAD^
+	git reset --hard xxxx		最好4位以上
+		为什么返回不了，windows的问题 可以使用git reset --hard head~1	
+	git reflog
+		通过该命令查看历史版本id
+		
+	git checkout -- readme.txt
+		丢弃当前工作区，恢复到head版本		
+	git reset HEAD readme.txt
+		撤回版本，将暂存区回退到工作区，再通过上面的丢弃当前工作区		
+	
+	git rm <file>
+		工作区删除了文件，同时确定要从版本库中删除文件
+		要恢复的话，如果是只删除文件没有执行这个命令，checkout就可以，如果执行了这个，reset，再checkout；
+		
+	ssh-keygen -t rsa -C "2424896931@qq.com"
+		生成key，默认在~/.ssh 但是是隐藏文件
+	git remote add origin git@github.com:Rayzanghua/designmethod.git
+		关联远程仓库
+	git push -u origin master
+		把当前分支master推送到远程
+		第一次推送master分支时，加上了u参数，不但会把本地地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令
+	git push origin master 
+	git clone git@github.com:Rayzanghua/designmethod.git
+		如果想要直接从github下载呢？
+		使用ssh更快，而且不用每次输入口令
+		git clone git@https://github.com/Rayzanghua/designmethod.git
+		
+day2
+	分支
+		git checkout -b dev
+			检出并切换，相当于
+			git branch dev 
+				创建分支
+			git checkout dev 
+				切换分支
+		git branch
+			查看分支
+		git merge dev
+			合并分支到当前分支
+		git branch -d dev
+			删除分支
+		
+		修复bug时候
+			git stash
+				保存现场，然后开建一个分支解决bug之后再回来
+	.gitignore
+		忽略一些文件
+		

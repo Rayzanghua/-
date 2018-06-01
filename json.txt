@@ -1,0 +1,36 @@
+JSON建构于两种结构：
+	“名称/值”对的集合（A collection of name/value pairs）。不同的语言中，它被理解为对象（object），纪录（record），结构（struct），字典（dictionary），
+	哈希表（hash table），有键列表（keyed list），或者关联数组 （associative array）。
+	值的有序列表（An ordered list of values）。在大部分语言中，它被理解为数组（array）。
+
+导入json-lib	有问题：
+	<dependency>    
+		<groupId>net.sf.json-lib</groupId>    
+		<artifactId>json-lib</artifactId>    
+		<version>2.4</version>    
+		<classifier>jdk15</classifier>    
+	</dependency>  
+	需要使用上面的配置
+	
+另外要想映射json数据，需要添加几个jar包
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-core</artifactId>
+		<version>2.8.1</version>
+	</dependency>
+
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.8.1</version>
+	</dependency>
+	
+@jsonIgnore：
+	
+	json序列化时忽略某个字段
+	
+	
+	
+406错误：
+	一般是没有加包
+	少数是访问后缀为html的

@@ -1,0 +1,61 @@
+7：
+	避免使用finalize方法，效率低下，还会对throws Exception产生影响
+	我们可以类似的项inputStream添加终结方法，close
+8：
+	equals的几个属性，注意到instanceof的使用
+9：
+	hashCode在源码的使用
+	主要是在String的使用
+10：
+	toString在源码的使用
+	 public String toString() {
+        return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+	
+12：
+	Iterable接口是lang包下的，有个返回iterator的方法
+	Iterator是util包下的，实现遍历的迭代器
+	
+	Comparable接口实现比较方法lang包下的，compareTo，
+	Comparator是util包下的，类内部无法实现比较，
+	Collestions的sort方法就需要，重载的sort方法
+	创建TreeSet时候可以传入比较器进去
+	
+	Collection是所有集合的接口
+	Collections是工具类	
+	两个都是util包下的
+	
+28：
+	这个例子不错
+	public static <T extends Comparable<? super T>> T max(List<? extends T> list)
+41：
+	慎用重载
+	如果一个类中的两个函数同名，并且参数是父子级关系，由于在编译的时候就确定了。因此调用的方法永远就是父类参数那一个。
+	还有就是在集合中由于装箱的原因，set.remove(int) set.remove(Integer) 两个是不同的方法
+44：
+	文档注释：
+		简洁的描述
+		@throws		@param	@return
+53:
+	接口优于反射
+	
+68：
+	runable	callable	future：
+		futuretask实现了两个接口，Runnable和future
+		future的异步模式怎么理解
+	Executor	Executors：
+		ThreadService的submit方法和execute方法
+69:
+	并发工具优于executor，task，coundown...，sempare....
+71：
+	双重检查，延迟初始化
+	
+72：
+	线程调度器	线程池
+
+	
+		
+	
+		
+		
+	

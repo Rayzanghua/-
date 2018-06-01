@@ -1,0 +1,27 @@
+参考资料：https://github.com/laiwenqiang/HowTomcatWorks
+chapter1
+	请求头名+英文空格+请求头值
+	请求头和请求实体之间有一个空白行CRLF。这是HTTP格式。用这个来确定实体是从哪开始的
+	响应头与响应体之间也有个CRLF
+	
+chapter2
+	为什么不安全，不是使用到了多态吗(但是他们传递给别的方法相当于向下转型了)；解决方案大概懂了一点点
+	外观设计模式？？？
+chapter3
+	startup模块仅仅包括一个startup类，负责启动应用程序。
+	connector模块的类可以分为
+		HttpConnector,HttpProcessor(负责创建对象，填充信息)
+		HttpRequest
+		HttpResponse
+		HttpRequestFacade,HttpResponseFacade
+		常量类
+	StringManager
+		用来处理一些properties文件
+	connector实现了Runnable接口，启动时会创建一个HttpConnector对象，其run方法会被调用。run方法是一个循环体
+		等待http的请求
+		为每个请求创建一个httpProcessor对象
+		调用HttpProcessor对象的process方法
+			创建一个Request对象和Response对象
+			处理请求行和请求头，填充request对象
+			将request对象和response对象传给processor或者staticResourceProcessor的process方法
+		

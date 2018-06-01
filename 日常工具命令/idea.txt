@@ -1,0 +1,28 @@
+idea导入整个springboot.io时项目不能运行，要进入下一级才能运行？？
+
+新建
+	alt+insert	
+Ctrl+Shift+Alt+S
+	编译器Project Settings
+折叠的代码按 Ctrl + Alt + T
+查找类和资源-------》Ctrl+n（eclipse中是Ctrl+R），这个操作非常重要！！！！！！
+查找全局-------》按两下Shift键
+内容搜索--------》Ctrl+Shift+F
+格式化Import         Ctrl+Alt+O
+查看maven的结构图 Shift+Ctrl+Alt+U
+查看一个类的继承关系结构图 Shift+Ctrl+Alt+U
+查看一个类的继承关系 Ctrl+H
+查看一个方法被引用的关系  Ctrl+Atl+H(强大！！)
+在当前文件夹中创建文件：Ctrl+Alt+N	
+sysout(sout 按tab)，main(psvm按tab),具体可按照ctrl+j
+idea与git远程仓库ssh连接时，需要将git设置成native	
+
+
+
+maven那个才是SpringBootApplication的名字，文件路径，文件名只是上面显示的
+
+配置文件
+		idea中乱码，可能与编码有关
+			读取properties的参数是乱码
+			设置勾选ascii，同时删除properties文件
+		可以通过运行的时候指定配置参数，主要随机字符一类的

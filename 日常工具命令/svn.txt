@@ -1,0 +1,35 @@
+
+创建版本库：
+	svnadmin create E:\svn\aa
+	
+启动服务：
+	svnserve -d -r E:\svn\aa
+	看服务启动 netstat -an
+	以管理员权限运行
+	sc create MySVNService binpath= "D:\tools\svn\bin\svnserve.exe --service -r 
+	E:\svn" start= auto depend= Tcpip
+	
+操作
+
+	svn checkout svn://localhost/aa
+	svn add hellosvn.txt
+	svn commit -m "my first head" hellosvn.txt
+	
+	svn update hellosvn.txt
+	
+trunk:
+	主干
+tags：
+	标签
+	
+	
+学习svn冲突
+	标记冲突为解决再提交
+	第二次是标记为合并，再提交
+	
+学习分支
+	标记为分支，然后可以切换到分支
+	
+	想要合并分支点击合并，选择第一个，但是合并过程中出现了问题
+	
+	

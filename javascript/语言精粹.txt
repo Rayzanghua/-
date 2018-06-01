@@ -1,0 +1,27 @@
+如何遍历出原型链原有的方法呢
+
+通过反射(typeof)可以反射出原型链上的方法
+
+delete只有删除不可写的属性时才会返回false，否则一律返回true，即便不存在的属性
+	注意严格模式下不能删除任意一个var定义的变量，具体看MDN
+	删除数组元素时会显示empty，但是和underfined一样 ？？？
+	
+闭包
+	for(var i = 0; i< 3; i++){
+
+            function foo(j){
+//                var j;
+//                j = 实参
+                //j = i
+                return function(){
+                    console.log(j);
+                };
+            }
+            //0
+            var f = foo(i);
+            setTimeout(f, 0);
+        }
+		
+模块中的例子
+为什么create用在array没有用？？？
+

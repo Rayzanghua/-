@@ -1,0 +1,28 @@
+filter能够拦截所有请求，包扩webapp下的请求
+如果没有chain.dofilter(req,resp);	不会返回任何东西
+
+==============filter====================19章
+filter 创建销毁的时机 随着服务器的启动与关闭
+filterconfig //获取配置参数filter
+ServletResponse与HttpServletResponse
+response.setDataHeader("Expires",-1);
+response.setHeader("Cache-Control","no-cache);
+response.setDataHeader("Pragma","no-cache");
+
+response.setDataHeader("Expires",-1);//设置缓存时间
+	<filter>
+		<filter-name>FilterDemo1</filter-name>
+		<filter-class>cn.itcast.filter.FilterDemo1</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FilterDemo1</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	===========================listener=========================
+	<listener>
+  		<listener-class></listener-class>
+  	</listener>
+	自动注册到servletContext
+jstl标签
+缓存

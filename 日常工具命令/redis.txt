@@ -1,0 +1,43 @@
+远程连接
+	redis-cli -h 192.168.25.128 -p 6379 
+
+命令：	
+	keys *
+	del key1
+	incr key1
+		key1加一，默认从1开始
+		如果转不出数字，incr就会报错
+		
+	hashmap:
+		hset hash1 field1 a 
+			只能一个一个加
+		hkeys hash1
+		hvals hash1
+		hgetall hash1
+		hdel hash1
+	
+	list:
+		lpush list 1 2 3
+		rpush list a b c
+		lrange list 0 -1
+		lpop list
+	
+	set 可以去重：
+		sadd set1 a b c a 
+		srem set1 a
+		sdiff set1 set2
+			取差集
+		sinter set1 set2
+			取交集
+		sunion set1 set2
+			取并集
+	
+	list+set:
+			
+	expire key1 100
+		设置100秒过期时间
+	ttl key1：
+		查看倒计时
+	Persist	keyq:
+		重置倒计时
+	

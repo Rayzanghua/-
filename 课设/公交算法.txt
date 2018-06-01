@@ -1,0 +1,43 @@
+2		1
+3		1+2
+4		1+2+3		(n-1)n/2
+
+
+
+
+	
+10路：S1 - S2 - S3 - S4 - S5 - S7
+11路：S2 - S6 - S7 - S8
+12路：S8 - S9 - S10
+13路：S11 - S2 - S8
+14路：S1 - S12 - S6 - S9
+
+不用换乘
+	select distinct rs.route_id from route_station rs, route_station rsa 
+	where rs.route_id = rsa.route_id and (rs.station_id = 1 and rsa.station_id = 5)
+
+	经过站点1和站点5的车
+换乘一次：
+	s2---s9
+	首先获得通过a的所有路线，b的所有路线
+	a的路线的站点，与b的路线的站点
+	有交集就可以
+	
+SELECT distinct q2.station_id from route_station q2 where route_id in 
+(SELECT q1.route_id from route_station q1 WHERE station_id=2)
+AND q2.station_id in
+(
+SELECT distinct r2.station_id from route_station r2 where route_id in 
+(SELECT r1.route_id from route_station r1 WHERE station_id=9)
+)
+	
+	select r1.route_name,
+	group_concat(s.station_name separator '/') as station_id,
+	r2.route_name
+	from route_station rs2,
+	route_station a,
+	route_station b,
+	route_info r1,
+	route_info r2,
+	station_info s
+	where 

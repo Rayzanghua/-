@@ -1,0 +1,20 @@
+install：
+	将项目打包成jar包发布到仓库当中
+	mvn install
+	将jar包发布到仓库中去
+	mvn install:install-file -DgroupId=oracle -DartifactId=ojdbc -Dversion=11.2.0.1.0 -Dpackaging=jar -Dfile=ojdbc14.jar 
+
+生命周期：
+	default:
+		compile test install deploy
+	还有site:
+		....
+		
+	注意只有jsp和javax.servlet两个包需要配置provide
+	
+maven:
+	mvn tomcat run
+	tomcat:run
+	-Dmaven.tomcat.port=8081 tomcat:run		配置端口运行
+	
+若是要引入model，那么在父工程引入的就应该是model工程，而不是。。。。

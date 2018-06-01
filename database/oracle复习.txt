@@ -1,0 +1,62 @@
+
+create table 表名称 as (子查询)			复制表数据
+create table 表名称 as (子查询 where 1=2) 复制表结构
+
+alter table 表名称 modify(列的名称 列的类型 default 默认值)
+alter table 表名称 add(列的名称 列的类型 default 默认值)
+alter table 表名称 drop column 列名
+
+rename 旧的表名称 TO 新的表名称
+
+truncate table 表名称
+
+primary key		主键约束，唯一		
+	定义唯一约束名称，不使用默认的 	constraint person_pid_pk primary key(id)
+	
+not null		非空约束
+
+unique	唯一约束
+	constraint person_pid_uk unique(id)
+
+check 	检查约束
+	constraint person_pid_ck check(id between 0 and 150)
+	
+主外键约束
+	constraint person_book_pid_fk foreign key(pid) reference person(pid);
+	一定都要是主键吗
+	级联删除	不建议使用，一般先删除主表再删附表	级联删除有三种
+		drop table book cascade constraint;
+		
+删除约束
+	alter table 表名称 drop constraint person_pid_ck;
+	
+union 没有返回重复结果
+unionall 包含重复结果
+
+视图
+	**with read only
+		create view stucs as select * from table  where 字段1 ='a' with check option 
+		以后对该视图插入、修改、删除操作时，会自动加上字段1='a' 的条件
+	**with check option
+	
+	可以对视图进行删除数据，修改数据影响原表，但是删除视图不会删除表
+		
+序列
+	create sequence myseq increment by 2 
+同义词
+		create synonym emp for scotter.emp
+		
+show errors 
+alert user scott account unclock 	
+	--------------------第一天--------------------------------
+	
+select student as "stu" ，student "stu", student stu	前两者没区别，后两者有
+
+空值用于不等于空，包含null的永远都为null
+nvl(a,0)
+nvl2(a,b,c)	空返回b否则c
+nullif(a,b) a=b返回null否则a 
+赋值plsql
+	a:=10 	
+	--------------第二题---------------------------------
+	set feedback  on		--什么意思

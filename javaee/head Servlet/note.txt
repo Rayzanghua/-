@@ -1,0 +1,12 @@
+chapter4	请求和响应：
+	getServerPort()	获得发送到服务器的端口
+	getLocalPort()	获得服务器请求处理的端口
+	getRemotePort()	获得客户端口
+	
+	
+listener：
+	要监听ServletContext事件，需要编写一个实现ServletContextListener的监听者类,
+	把他放在WEB-INF/classes目录中，然后在web.xml中声明
+	
+	
+	

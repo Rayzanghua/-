@@ -1,0 +1,53 @@
+    import importlib
+		importlib.reload()
+for temp in os.walk(".")
+	print(temp)
+b=[a[i:i+3] for i in range(0,len(a),3)]	
+	
+全局变量
+global num
+import u1.py
+	u1.go()
+from u1 import go
+	go()
+from u1 import go as g
+from u1 import *
+
+def build(fir,las,**dir):
+	profil={}
+	profil['fir']=fir	
+	profil['las']=las	
+	for key,value in dir.items():
+		profile[key]=value
+	return profile
+	
+字典注意dir.items()===>[(k,v)(k,v)]
+
+with open ('1.txt') as file_obj:
+	contents=file_obj.read()
+	print(contents)
+	
+with open ('a.txt','w') as f1:
+	f1.write()
+with open('a.txt','a') as f2:
+	f2.write()
+	
+a=a+a  改变地址
+a+=a  不改变
+
+var=lambda a:a+1
+使用时 var（3） 适用于非常简单的运算
+
+
+b=[{'xvhao':23},{'xvhao':22}]
+b.sort(key=lambda x:x['age'])
+b
+
+f=open('1.txt')
+f.read()
+
+
+
+创建类
+
+list=[x for x in range(1,40) if list%2=0]

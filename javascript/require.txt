@@ -1,0 +1,23 @@
+http://www.runoob.com/w3cnote/requirejs-tutorial-2.html
+
+	防止js加载阻塞页面渲染
+	使用程序调用的方式加载js，防出现如下丑陋的场景
+	
+		require.config({
+            paths : {
+                "jquery" : ["./js/jquery-2.1.4.min"]   
+            }
+        })
+        require(["jquery","a.js"],function($){
+            $(function(){
+                alert("load finished");  
+            })
+        })
+		
+		回调函数传入参数，由于之前加载的模块有输出变量
+		
+		由于不需要每个页面都加入config文件，所有我们会在main.js中定义config，然后
+			<script data-main="js/main" src="js/require.js"></script>	重新绑定在每个页面即可，绑定的目录默认为main的根目录
+			
+		还有一些非AMD配置，这个没看
+			除了有前面说过的paths属性之外，还有一个shim属性，专门用来配置不兼容的模块

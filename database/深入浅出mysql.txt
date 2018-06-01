@@ -1,0 +1,439 @@
+﻿建立unique索引
+	如果又是主键，修改的时候出问题了
+
+DDL:
+
+		alter table mytbl modify column id varchar(10);
+		alter table mytbl modify id int;
+
+		alter table mytbl add  bumen1 varchar(10);	
+		alter table mytbl add  column bumen1 varchar(10);	
+			
+		alter table mytbl drop  	bumen1;
+		alter table mytbl drop  column	bumen1;
+
+		alter table mytbl change name1 name varchar(20);
+
+		alter table mytbl add birth date after id;
+		alter table mytbl modify age int(3) first;
+
+		alter table mytbl rename mytable;
+		
+DML:
+	UNION	进行一次合并，去重
+	UNION ALL	直接合并
+	
+	
+	-------------------------chapter3---------------------------------
+	char较短，会删除空格，varchar保留
+	
+	create table t (gender enum('M','F'));
+	
+	set类型支持更多的
+	
+	--------------------------chapter4-------------------------
+	
+具体的一些函数：
+	
+	字符串函数
+	日期函数
+	数字处理相关函数
+		
+	select if(salary>2000,'high','low') from salary;
+	
+	select ifnull(salary,0) from salary;
+	
+	case when salary<=2000 then 'low' else 'high' end：
+		select  case when salary<=2000 then 'low' else 'high' end from **;
+		
+	其他函数：
+		select database();
+		select version();
+		select user();
+		INET_ATON(IP)函数：返回 IP 地址的网络字节序表示。:
+			select inet_aton('127.0.0.1');
+			
+		INET_NTOA(num)函数：返回网络字节序代表的 IP 地址。
+		
+		MD5(str)函数:
+			select md5('123');
+			
+			
+	-------------------------chapter7-------------------------------------
+	
+	数据库引擎：
+		CREATE TABLE ai (
+		i bigint(20) NOT NULL AUTO_INCREMENT,
+		PRIMARY KEY (i)
+		) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+		
+		alter table ai engine = innodb;
+		
+	MyISAM：
+		MySQL默认存储引擎：
+			不支持事务，也不支持外键，访问速度快，
+			对事务完整性没有要求或者以select，insert为主
+			
+			支持3种不同的存储格式：
+				静态表	动态表	压缩表
+				
+				默认是静态表：
+					存储非常迅速，容易缓存，出现故障易恢复，但是空间比动态表多。
+					注意会对空格进行处理
+					
+					
+	InnoDB：
+		具有提交，回滚和崩溃恢复能力的事务安全。但是对比MyISAm，效率差一些并且会占用更多的磁盘空间用来保存数据和索引
+		
+		特点：
+			自动增长：
+				ALTER TABLE *** AUTO_INCREMENT = n 设置初始值，默认为1
+				
+			外键：
+				create table country(
+					country_id smallint unsigned not null auto_increment,
+					country varchar(50) not null,
+					last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+					primary key(country_id)
+				)engine=InnoDB default charset=utf8;
+				
+				create table city(
+					city_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+					city VARCHAR(50) NOT NULL,
+					country_id SMALLINT UNSIGNED NOT NULL,
+					last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+					PRIMARY KEY (city_id),
+					CONSTRAINT `fk_city_country` FOREIGN KEY (country_id) REFERENCES country (country_id) ON
+					DELETE RESTRICT ON UPDATE CASCADE
+				)engine=InnoDB default charset=utf8;
+		
+				其中 RESTRICT 和 NO ACTION 相同，是指限制在子表有
+				关联记录的情况下父表不能更新；CASCADE 表示父表在更新或者删除时，更新或者删除子表
+				对应记录；SET NULL 则表示父表在更新或者删除的时候，子表的对应字段被 SET NULL
+							
+				暂时关闭外键约束：
+					set foreigin_key_checks=0;
+				启动：
+					set foreigin_key_checks=1;
+					
+			存储方式：
+				
+			memory:
+				储存在内存中，默认hash索引
+				CREATE TABLE tab_memory ENGINE=MEMORY
+				SELECT city_id,city,country_id
+				FROM city GROUP BY city_id;
+				
+			merge：
+				
+			
+	---------------------------chapter9------------------------------------
+	
+	导出表结构：
+		mysqldump -uroot -p databasename >create.sql
+		
+		mysql -uroot -p databasename <create.sql
+		
+		
+	----------------------------chapter10-----------------------------------
+	
+创建索引：
+	可以使用短索引
+	
+	对于Hash索引	一般用于memory：
+		只能用=，>=<
+		不能使用hash索引加速order by
+		只能使用关键字来搜索一行
+		
+	btree索引 大多数：
+		>、<、>=、<=、BETWEEN、!=或者<>，或者 LIKE 'pattern'（其中'pattern'不以通配符开始）操作符时
+		
+	查看执行：
+		explain SELECT * FROM city WHERE country_id > 1 and country_id < 10
+		检测查找过程
+		
+		-----------------------chapter11-----------------------------------
+视图：
+	 简单：使用视图的用户完全不需要关心后面对应的表的结构、关联条件和筛选条件，
+	对用户来说已经是过滤好的复合条件的结果集。
+	 安全：使用视图的用户只能访问他们被允许查询的结果集，对表的权限管理并不能
+	限制到某个行某个列，但是通过视图就可以简单的实现。
+	 数据独立：一旦视图的结构确定了，可以屏蔽表结构变化对用户的影响，源表增加
+	列对视图没有影响；源表修改列名，则可以通过修改视图来解决，不会造成对访问
+	者的影响	
+	
+	create view as select * from emp;
+	
+	设置视图满足条件可以更新：
+		with check 
+		
+创建表时可以使用check约束，但是没有任何作用
+create table vp(name enum('F','M'));
+	可以插入空值
+		
+		
+	--------------------------------chapter12存储过程--------------------------------
+	
+DELIMITER $$ --将结束符改为
+
+create procedure file_in_stock(in p_film_id int,in p_store_id int,out p_file_count int)
+
+reads sql database
+[SQL SECURITY DEFINER]--权限 是否可用
+begin
+	declare v_param int;
+	select .....
+end $$
+
+调用：call file_in_stock(2,2,@a)
+select @a;
+
+删除：
+	drop procedure file_in_stock;
+	
+	
+通过show status可以查看状态
+
+光标的使用：
+	BEGIN
+	#Routine body goes here...
+	DECLARE cid int;
+	DECLARE cur_payment cursor for select id from mytable;
+	DECLARE EXIT HANDLER FOR NOT FOUND CLOSE cur_payment;
+	open cur_payment;
+	REPEAT
+		fetch cur_payment into cid;
+		SELECT cid;
+	UNTIL 0 END REPEAT;																																													
+	close cur_payment;
+END
+	
+	
+	---------------------------删除添加触发器-------------------------------------
+	DELIMITER $
+create trigger tri_stuInsert after insert
+on student for each row
+begin
+declare c int;
+set c = (select stuCount from class where classID=new.classID);
+update class set stuCount = c + 1 where classID = new.classID;
+end$
+DELIMITER ;
+
+代码如下:
+
+
+CREATE TRIGGER trigger_name
+trigger_time
+trigger_event ON tbl_name
+FOR EACH ROW
+trigger_stmt
+
+其中：
+
+trigger_name：标识触发器名称，用户自行指定；
+trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；
+trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；
+tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；
+trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。
+	--------------------------14事务控制-----------------------------------------
+	分布式任务：
+		XA命令
+		
+		--------------------------15sql注入--------------------------------------
+	
+	---------------------------16sql安全------------------------------------------
+	插入数据过长会显示warning
+	可以设置严格模式，插入数据过长会显示error：
+		set session sql_mode='STRICT_TRANS_TABLES';
+		
+	还可以针对日期，设置相关的限制
+	-----------------------------17正则表达式------------------------------------
+	select 'efg' REGEXP "[^XYZ]",'X' REGEXP "[^XYZ]";
+	
+	Rand()可以提取随机行
+	
+	mysql对大小写不敏感，但是如果在不同的操作系统中有可能产生影响
+	
+	BIT函数和Group by函数在某些场合联合应用能够大大降低	存储量，提高查询效率
+	
+	-------------------------------18效率状态--------------------------------------
+	通过 show status 命令了解各种 SQL 的执行频率
+	
+		通过慢查询日志定位那些执行效率较低的 SQL 语句
+		
+		慢查询日志在查询结束以后才纪录，可以使用 show processlist 命令查看当前 MySQL 在进行的线程
+	
+	查询到效率低的SQL后:
+		通过explain或desc命令获取如何执行select语句的信息
+		
+	针对sql进行优化
+	
+	索引：
+		MyISAM 和 InnoDB	BTree索引
+		MEMORY/HEAP	Hash和BTree
+		
+		对于复合索引：
+			如果只用到了最左边的列也会使用索引	
+			
+		存在索引 但没有使用：
+			***where col>1 and col<13
+			
+			如果or前面有索引or后面没有 就不会使用索引
+			
+			where like 中不用%开头
+			
+			where中用like 不用= 不然也不会用索引
+			
+			show status like 'Handler_read%';
+				如果查询结果中Handler_read_key 代表索引使用次数
+				Handler_read_rnd_next  如果高说明索引效率低下
+				
+		检查表
+			analyze table sales;
+		定期优化，减少内存碎片：
+			optimize table sales;
+			
+		导入大量数据优化：
+			使用load命令
+				取消索引
+				设置autocommit=0 关闭自动提交
+			使用insert：
+				
+		联合表查询优化：
+			select * from sales2 where company_id not in ( select id from company2 )
+			select * from sales2 left join company2 on sales2.company_id =
+			pany2.id where sales2.company_id is null
+			
+			第二个查询语句中使用到了id 的索引，可以通过explain来检查
+			
+			
+	----------------------19优化数据库对象-------------------------------------
+	
+	SELECT * FROM duck_cust PROCEDURE ANALYSE()：
+		会给出优化设计
+		
+	----------------------20锁问题  重点--------------------------------------------
+	
+	表级锁：
+		开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高,并发度最低
+		
+	行级锁：
+		开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低,并发度也最高
+	页面锁：
+		开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般
+		
+	InnoDB存储引擎既支持行级锁（row-level locking），也支持表级锁，但默认情况下是采用行级锁	
+	
+	show status like 'table%':
+		如果 Table_locks_waited 的值比较高，则说明存在着较严重的表级锁争用情况
+		
+	共享读锁与独占写锁
+		lock table mytable read;
+		unlock tables;
+		
+	MyISAM 的锁调度问题：
+		MyISAM 存储引擎的读锁和写锁是互斥的，读写操作是串行的
+		通过指定启动参数low-priority-updates，使MyISAM引擎默认给予读请求以优先的权利
+		
+	Innodb：
+		show status like 'innodb_row_lock%';
+			***共享锁（S）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。
+			***排他锁（X)：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁。
+		通过索引的方式加行锁，意味着，没有索引使用表锁
+	
+		间隙锁：
+			对于键值在条件范围内但并不存在的记录，叫做“间隙（GAP)
+			InnoDB使用间隙锁的目的，防止幻读，满足事务隔离的要求；另外为了满足恢复和复制的需要。
+			难点
+			
+
+------------------------------------21优化MySQl---------------------------
+
+命令行查看：
+	mysqld --verbose --help|more
+	
+---------------------------------22磁盘IO--------------------------------
+
+
+分布 I/O
+
+-------------------------23应用优化-------------------------------------
+查询缓存：
+	show variables like '%query_cache%';
+
+分流查询实现负载均衡
+
+表的字段尽量不使用自增长变量，在高并发情况下该字段的自增可能对效率有比较
+大的影响，推荐通过应用来实现字段的自增长
+
+-----------------------25数据库安装------------------------------------
+各种工具：
+
+ mysql -uroot --default-character-set=utf8
+ 
+ 数据库统计：
+
+		---------------------------27数据库备份--------------------------
+逻辑备份：	
+	mysqldump -uroot -p test [t1] [t2] > emp_dept.sql
+	mysql –uroot –p dbname < bakfile
+	日志恢复：
+		mysqlbinlog localhost-bin.000015 | mysql -u root –p test
+		
+物理备份：
+	冷备份其实就是停掉数据库服务，cp 数据文件的方法	很少使用
+	
+	热备份：
+		本质其实就是将要备份的表加读锁，然后再 cp 数
+		据文件到备份目录
+		
+	-----------------------------------28MySQL权限与安全-------------------------------
+	
+	创建用户 并赋予权限：
+		grant select on *.* to z1@localhost;
+		Grant select,insert,update,delete on tablename to ‘username’@’hostname’;
+	更改密码：
+	
+	删除账户：
+	
+	删除表之后记得回收表的权限
+	
+	-----------------------------------MySQL复制-------------------------------------
+	
+	
+	MySQL实现的是异步的复制：
+		适用于更新不频繁或者对实时性要求不高的操作
+		
+	MySQL复制的优点：
+		如果主服务器出现问题，可以快速切换到从服务器提供服务
+		可以在从服务器上执行查询语句，降低服务器的压力
+		可以在从服务器上执行备份，避免备份期间影响主服务器的服务
+		
+	-------------------------------------MySQL Cluster---------------------------------
+	
+	管理节点：
+		通过一个config.ini的配置文件进行维护
+	SQL节点：	
+		通过SQL节点访问数据节点
+	数据节点：
+		用来存放Cluster里面的数据
+		
+--------------------------------------MySQL 常见问题和应用技巧--------------------------
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	

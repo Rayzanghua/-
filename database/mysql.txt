@@ -1,0 +1,4 @@
+--创建用户
+create user renren identified by '123456';
+--赋予权限
+grant all on renren.* to renren;

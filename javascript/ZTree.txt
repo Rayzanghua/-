@@ -1,0 +1,77 @@
+第一种
+	正常配置setting1，zNodes1，再通过调用zTreeObj1 = $.fn.zTree.init($("#treeTest2"), setting1, zNodes1);
+	无须做其他操作
+	
+第二种
+	平台使用的比较多
+	首先在html标签上绑定u-meta
+		eg：u-meta='{"id":"tree2","data":"dataTable","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting"}'
+	然后定义var viewModel变量
+		var viewModel = {
+            treeSetting:{
+                view:{
+                    showLine:false,
+                    selectedMulti:false
+                },
+                callback:{
+                    onClick:function(e,id,node){
+                        var rightInfo = node.name + '被选中';
+                    }
+                }
+            },
+            dataTable: new u.DataTable({
+                meta: {
+                    'id': {
+                        'value':""
+                    },
+                    'pid': {
+                        'value':""
+                    },
+                    'title':{
+                        'value':""
+                    }
+                }
+            })
+        };
+	然后绑定数据 viewModel.dataTable.setSimpleData(data); 
+		var data = [{
+            "id": "01",
+            "pid": "root",
+            "title": "f1"
+        },{
+            "id": "02",
+            "pid": "root",
+            "title": "f2"
+        },{
+            "id": "101",
+            "pid": "01",
+            "title": "f11"
+        },{
+            "id": "102",
+            "pid": "01",
+            "title": "f12"
+        },{
+            "id": "201",
+            "pid": "02",
+            "title": "f21"
+        }];
+	最后执行
+	$(function () {
+    		app = u.createApp({
+    			el: 'body',
+    			model: viewModel
+    		});
+
+    	});
+		
+	如果每次修改data数据后，就需要再次绑定数据viewModel.dataTable.setSimpleData(data); 
+		
+		
+	问题
+		对u这个对象不熟悉，u-meta不熟悉
+		
+		
+学习
+	我的好像前面没有+  嘤嘤嘤
+	查询节点
+	

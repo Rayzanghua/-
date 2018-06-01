@@ -1,0 +1,128 @@
+
+既然提交失败自动回滚，为什么还要手动加回滚
+
+============================深入浅出mybatis===============================
+生命周期
+	SqlSessionFactoryBuilder 用来构建SessionFactory，通过xml。
+	生命周期只存在与方法的局部，就是生产SqlSessionFactory对象
+	
+	SqlSessionFactory 作用是创建SqlSession（好像JDBC中的Connection）。每次访问数据库都会
+	创建SqlSession，因此生命周期是Mybatis的整个应用。一般设置为单例，便于管理，
+	防止过度的Connection被消耗
+	
+	SqlSession 是一个会话，生命周期应该是在请求数据库处理事务的过程中。
+	它是一个线程不安全的对象，在涉及多线程特别当心，操作数据库时注意其隔离级别，
+	数据库锁等高级特性。其次，注意及时关闭。
+	
+	Mapper 最大范围与SqlSession相同
+	
+	Mapper方式可以检查java的语法，避免不必要的错误
+	
+	>>>>>>>>>>>>>>>>>>>>
+	整个生命周期Configuration,用来读取mybatis的配置
+	
+===================================3配置=================================
+<configuration>	配置
+<properties>	属性
+<settings>	设置
+<typeAliases>	类型命名  不区分大小写
+<typeHandlers>	类处理器
+<objectFactory>	对象工厂
+<plugins>	插件
+<enviroments>	配置环境
+<enviroment>	环境变量
+<transactionManager>	事务管理器
+<dataSource>	数据源
+<databaseIdProvider>	数据库厂商标识
+<mappers>	映射器
+
+properties是一个配置属性的元素，让我们能在配置文件的上下文中使用它
+MyBatis提供3种配置方式：
+	property子元素
+	properties配置文件
+	程序参数传递
+
+别名
+	可以通过自动扫描包,默认包下的所有类类名小写
+		<typeAliases>
+			<package name="com.learn.chapter2.po" />
+		</typeAliases>
+		也可以限定名
+		@Alias（"role")
+		public class Role{}
+	也可以xml配置
+		<typeAliases>
+			<package alias="role" name="com.learn.chapter2.po" />
+		</typeAliases>
+	
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+====================特殊查询====================================
+<select id="listCategoryByName" parameterType="string" resultType="Category">
+     	select * from category_ where name like concat('%',#{0},'%')
+     </select>
+	 
+	 List<Category> cs = session.selectList("listCategoryByName","cat");
+		 for (Category c : cs) {
+	            System.out.println(c.getName());
+	        }
+			
+			
+<select id="listCategoryByIdAndName" parameterType="map" resultType="Category">
+     	select * from category_ where id>#{id} and name like concat('%',#{name},'%')
+     </select>
+	 
+	 Map<String,Object> params = new HashMap<>();
+        params.put("id", 1);
+        params.put("name", "cat");
+        
+		 List<Category> cs = session.selectList("listCategoryByIdAndName",params);
+		 for (Category c : cs) {
+	            System.out.println(c.getName());
+	        }
+			
+			
+====================================================
+<resultMap type="Category" id="categoryBean">
+	<id column="cid" property="id"></id>
+	<result column="cname" property="name"/>
+	
+	<collection property="products" ofType="Product">
+		<id column="pid" property="id"></id>
+		<result column="pname" property="name"/>
+		<result column="price" property="price"/>
+	</collection>
+</resultMap>
+	
+<select id="listCategory" resultMap="categoryBean">
+	select c.*,p.*,c.id 'c.id',p.id 'p.id',c.name 'cname',p.name 'pname' from category_ c left join product_ p on c.id = p.cid
+</select>  
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>chapter6 原理
+org.apache.ibatis.session.Configuration
+	加载所有的配置

@@ -1,0 +1,4 @@
+chapter2
+	BeanFactory与ApplicationContext
+		ApplicationContext提供了更多的功能
+	BeanFactory与FactoryBean没什么比较性，至少名字相似；后者是一个接口

@@ -1,0 +1,122 @@
+初级
+	你加[0]会获取一个DOM对象
+	filter过滤
+		MDN的例子 有问题？？
+	取值
+		当取一组时，取出第一个
+		当赋值的时候，会赋值一组
+		
+	attr
+		获取一组当中第一个
+		设置一组属性
+		
+	has
+		包含
+		可以与filter一起使用
+		
+	find
+		找到指定的标签
+		
+	index
+		找到在当前兄弟元素的index
+		
+	addClass	removeClass
+		
+	width  //width	
+	innerWidth   //width + padding
+	outerWidth //width + padding + border
+	outerWidth  //width + padding + border + margin
+	
+	几种DOM插入
+			//$('span').insertBefore( $('div') );	
+			//$('div').insertAfter( $('span') );			
+			//$('div').appendTo( $('span') );			
+			//$('div').prependTo( $('span') );
+			
+			注意	两者是不同的
+			$('span').insertBefore( $('div') ).css('background','red');	
+			$('div').before( $('span') ).css('background','red');
+			
+	remove
+	
+	事件
+		on
+		off
+		one	就执行一次
+		ev.preventDefault();  //阻止默认事件		
+		ev.stopPropagation();  //阻止冒泡的操作		
+		return false;   //阻止默认事件 + 阻止冒泡的操作
+	scrollTop
+		滚动距离
+		
+	弹窗的例子
+		resize scroll	不明白是什么事件？？？
+		
+	距离的例子？？？
+		//alert( $('#div2').offset().left );  //获取到屏幕的左距离
+		alert( $('#div2').position().left );  //到有定位的父级的left值,把当前元素转化成类似定位的形式
+		
+	size
+		获得一组元素的长度
+	each(index,elem)
+		
+	拖拽的例子666666
+	
+	get() : 就是把JQ转成原生JS
+	
+	html会显示包括<>
+	text只会显示文本
+	
+	detach相对于remove会保留相关的元素行为
+	
+	//parents() : 获取当前元素的所有祖先节点，参数就是筛选功能
+	closest() : 获取最近的指定的祖先节点(包括当前元素自身),必须要写筛选的参数,只能找到一个元素
+	
+	//siblings() : 找所有的兄弟节点，参数也是筛选功能
+	nextAll() : 下面所有的兄弟节点，参数也是筛选功能
+	prevAll() : 上面所有的兄弟节点
+	Until() : 截止
+	
+	$('div').clone(true)
+		复制包括行为
+		
+	slice
+		选择一组元素指定下标范围
+		
+	add
+		添加
+		
+	serializeArray
+		串联化
+		
+	//animate() : 
+		//第一个参数 : {} 运动的值和属性
+		//第二个参数 : 时间(运动快慢的)  默认 : 400
+		//第三个参数 : 运动形式 只有两种运动形式 ( 默认 : swing(慢快慢) linear(匀速) )
+		//第四个参数 :  回调函数
+		
+		//$('#div1').stop();   //默认 : 只会阻止当前运动		
+		//$('#div1').stop(true); //阻止后续的运动		
+		//$('#div1').stop(true,true); //可以立即停止到指定的目标点		
+		$('#div1').finish();  //立即停止到所有指定的目标点
+		
+	事件委托？？？
+	
+	trigger
+		主动触发
+		
+	事件细节？
+	
+	工具方法	也可以给原生js使用
+		$.type(a)
+		$.inArray('b',arr)
+		$.proxy(show , document,3)(4);
+			改变this的指向？？
+		//noConflict() : 防止冲突的
+		$.parseJSON( str ).name
+		
+	自定义插件
+		//$.extend : 扩展工具方法下的插件形式  $.xxx() $.yyy()
+		$.fn.extend  :  扩展到JQ对象下的插件形式  $().xxx()  $().yyy()
+		
+		

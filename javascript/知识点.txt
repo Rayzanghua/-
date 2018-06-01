@@ -1,0 +1,85 @@
+比较
+	==	//会转型	
+	===		//不会转型
+	underfined==null	//true
+	underfined===null	//false
+	null	//可以当做0来看
+	null+10	//10
+	underfined+10	//NaN
+
+ 
+对象
+	创建对象的方法
+	var hero=new Object();	//空白的对象
+	
+	自定义对象
+	function create(){
+		var obj=new Object();
+		return obj;
+	}
+	
+	function Student(){
+		this.name='';
+	}
+	
+	对象字字面量
+	var hero={
+		name:'cupid',
+		say:function(){
+			console.log('ee');
+		}
+	};
+	
+为什么console.log()	和 alert() 不一样
+
+every()
+	为啥默认返回是false呢
+	
+onclick="showpic(this);return false;";防止用户被带到目标窗口
+
+ 
+
+offset
+	相对于文档的偏移量
+
+jquery的复制
+
+{"say":{"go":"cupid"}}	和不加""	有什么区别呢
+
+Function instanceof Object  //true
+		Object instanceof Function	//true	这是为什么
+		
+Object.prototype.toString.apply([]);	为什么其他对象不可以
+
+call
+	WorkerBee.call(this, name, "engineering", projs);
+	方法是WorkerBee的构造函数，对象是this，参数是后面的
+	
+	Meta  MDN遇到了问题
+	
+闭包
+	            div.onclick = function (j) {
+                    return function () {
+                        alert("我是第"+ (j+1) +"个div");
+                    }
+                }(i);
+				
+				div.onclick = 
+                      function () {
+                        alert("我是第"+ (i+1) +"个div");
+                    }
+                ;
+				
+				这两个例子的区别就是，第一个立即执行没有绑定for语句中的i，将i 的值传进去了，而第二个不是
+				
+				
+原型
+	new
+		将创建对象的内部属性__proto__指向构造函数的原型（原型，后面讲到原型会解释）
+		
+		__proto__指向构造函数的prototype	只有构造函数才会有prototype
+				
+秘密花园的
+	arguments不理解
+
+	

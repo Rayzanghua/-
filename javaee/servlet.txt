@@ -1,0 +1,105 @@
+在servelt.xml 配置context的app  但是要重启服务器
+在calatina 的目录下添加xml 配置 不需要重启 
+
+打包成war文件 tomcat会自动解压  jar -cvf aa.war news
+
+WebRoot 相当于根目录
+
+客户端跳转：
+	response.sendRedirect("");
+
+=========================servlet配置========================
+
+
+*.do   /*（优先级比较高）  两种匹配
+
+<servlet>
+	#<load-on-startup>1</load-on-startup>            ///配置init方法
+</servlet>
+
+<servlet-mapping>/</servlet-mapping>  配置为缺省的servlet（也就是其他servlet没有匹配的）
+
+<servlet>
+	<init-param>
+		<init-name></init-name>
+		<init-value></init-value>          ///通过ServletConfig配置
+	</init-param>
+</servlet>
+
+<web-app>
+	<context-param>
+		<param-name>xxx</param-name>
+    	<param-value>aaa</param-value>			//context初始化
+	</context-param>
+</web-app>
+
+context.getRequestDispatcher()  //请求转发
+response.getOutputStream().write("ssss")  sss不会输出
+
+response.getOutputStream().write("ssss")  sss不会输出
+context.getRequestDispatcher() 
+
+xxx.class.getClassLoader().getResource("db.properties");
+
+this.getServletContext().getResourceAsStream("/")  获取资源文件 相对于/day_01
+
+在maven中对于，就是在webapp目录下
+
+response.setDateHeader("expires", 1000l);  设置缓存
+
+=========================response===========================
+response.getOutputStream().write("<meta http-equiv='Content-type' content='text/html;charset=UTF-8'>".getBytes());       //中文问题
+针对用Stream输出
+
+response.setHeader("Content-type", "text/html);charset=UTF-8");
+	response.setCharacterEncoding("UTF-8");
+	response.getWriter().write("中国");
+response.setHeader("Content-type","image/jpeg");
+response.setHeader("location","/day_01/servlet/ServletDemo1");//请求重定向
+response.sendRedirect("/day_01/...")  //请求重定向
+
+"/" 如果是给服务器用，代表web工程 forward 从webroot
+	如果是浏览器 代表app  sendRedirect 从项目
+	
+	getOutputStream与getWriter不能同时使用
+	
+	
+	post 提交不乱码
+	设置浏览器的编码request设置
+		 request.setCharacterEncoding("");
+	get提交 不管用 要用到ISO8859
+		String str=request.getParameter("name");
+	System.out.println(new String(str.getBytes("iso8859-1"),"UTF-8"));
+	
+	URL提交不能带中文 要URL编码
+	
+	request********************请求的方法
+	
+	Get限制Form表单的数据集的值必须为ASCII字符(也就是说不能有中文)；
+	而Post支持整个ISO10646字符集。默认是用ISO-8859-1编码 (网站上说的)
+
+	
+	====================cookie======================
+	设置cookie的时间，访问地址（在某个目录下 例如/01_day/sys 下）
+		Cookie cookie=new Cookie("", "");
+		response.addCookie(cookie);
+		request.getCookies()
+	=====================session====================
+	session 来确定连接的客户端，唯一的标识
+		response.sendRedirect("");   url重写
+		response.encodeRedirectURL("");  重定向url重写
+			request.getSession();
+			<session-config>
+			<session-timeout></session-timeout>
+			</session-config>
+			Session设置存活时间
+			sess.setMaxInactiveInterval(1000);
+		 
+		=====================md5=================================
+		MessageDigest a=MessageDigest.getInstance("md5");
+		a.digets("hello".getBytes()
+		然后用base64编码
+		=====================================防表单重复提交==========================
+		先判断是否有token   （提交的时候删除，防止返回）
+		在判断token是否匹配
+	

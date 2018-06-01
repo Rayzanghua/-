@@ -1,0 +1,47 @@
+触发器：
+	
+	create or replace trigger testTrigger
+	after insert on o1
+	declare 
+		dbms_output.put_line('一个员工被插入');
+		end testTrigger;
+		
+	注意sys用户的表示不能使用触发器的，需用创建普通用户，以及赋予权限
+	
+存储函数：
+
+	create or replace function empincome(eno in emp.empno%type)
+	return number is
+		psal emp.sal%type;
+		pcomm emp.comm%type;
+	begin
+		select t.sal into psal from emp t where t.empno=eno;
+		return psal*12+nvl(pcomm,0);
+	end;
+	
+	有且只有一个返回值
+	
+存储过程：
+
+	create or replace procedure empincomep(eno in emp.empno%type,income out number) is
+		psal emp.sal%type;
+		pcomm emp.comm%type;
+	begin
+		select t.sal,t.comm into psal,pcomm from emp t where t.empno=eno;
+		income:=psal*12+nvl(pcomm,0);
+	end empincomep;
+	
+	可以有多个返回值，或者没有
+
+调用：
+
+	declare
+		income number;
+	begin
+		empincomep(111,income);
+		dbms_output.put_line(income)
+	end;
+	
+	create table t1(
+	id number,
+	foreign key(id) references emp(empno));

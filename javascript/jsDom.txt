@@ -1,0 +1,502 @@
+
+window.onload=f1();//执行了f1
+window.onload=f1;//地址给了onload
+---------------chapter2--------------------------------
+注释
+	//	<!-- 	单行
+	/**/	多行
+	<!-- 这是html中的多行注释 -->			尽量不要用在js中	需要在每行的头部加入<!--
+	
+变量
+	mod="aa";	
+	var mod,aaa;	声明变量是一个好习惯
+	
+	不允许变量名中含有空格或标点符号	$例外
+	变量名允许字母	数字	美元符	下划线	但是第一个不能是数字
+	一般命名格式去掉下划线，驼峰式
+	
+数据类型
+	字符串
+		可以用单引号或者双引号
+		var str="don\'t ask";	最好引号用转义符表示
+		
+	数值
+		不必限定他是一个整数，
+		var num=-11.2;
+	布尔值
+		var flag=true;
+	数组
+		传统数组
+			数组使用关键字Array进行声明，如果不确定个数就可以省略
+			var arr=Array(3);	var arr=Array();
+			赋值
+				arr[0]="aaa";
+			var arr=Array("aaa",55);
+		关联数组
+			var arr=Array();
+			arr["name"]="cupid";
+			
+	对象
+		var obj=Object();
+		obj.name="cupid";
+		obj.year=1990;
+		
+		var obj={name:"cupid",year:1990};
+		
+		var obj={}
+		obj.name="cupid"
+		
+	当然还可以嵌套
+		
+	操作
+		var message="eee";
+		var year=2014;
+		message+=year;
+	
+	条件语句
+		if(true){
+		}
+		为了格式良好，加上花括号
+		
+	逻辑操作符
+		只有||	&&
+		
+	循环
+		for(;;){
+		}
+		while(){
+		}
+		do{
+		}while();
+		
+	函数
+		function shout(){
+		}
+		function shout(num1,num2){
+		}
+		function shout(num1,num2){
+			return num1+num2;
+		}
+		
+	变量的作用域
+		全局变量
+			一旦在某个脚本声明了一个全局变量，就可以从脚本中的任何位置，包括函数内部引用它。作用域就是整个脚本
+		局部变量
+			只存在于声明它的那个函数的内部，外部是无法引用的。局部变量的作用域仅限于特定的函数
+			
+		如果加了var视为一个局部变量，只存在函数的上下文；反之，如果没有var，视为一个全局变量，如果脚本中已经有了一个全局变量，就会改变它的值
+		
+		使用var能够避免二义性隐患
+		
+	对象
+		属性是率属于某个对象的变量；
+		方法是率属于某个对象的函数；
+		
+		var obj=new Object;		与	var obj=Object();一样
+		
+	内建对象
+		例如Array
+	宿主对象
+		js运行环境相关的对象，如window，document
+		
+-------------------------------chapter3------------------------------------------------
+		
+节点
+	元素节点
+		dom的原子就是元素节点
+		标签的名字就是元素的名字
+	文本节点
+		文本节点总是被包含在元素节点的内部，但并非所有元素节点都包含文本节点
+	属性节点
+		属性节点用来对元素做出更具体的描述，例如，几乎所有元素都要title属性。并非所有的元素都包含着属性
+		
+css
+	类选择器	.special	h2.special
+	id选择器	#special	#specila li
+	
+获取元素
+	typeof
+		可以告诉我们它是一个对象，还是一个字符串，日期，数字
+	document.getElementById("special");	返回一个对象object
+	getElementByTagName("li");	返回一个对象数组
+	getElementByClassName("special");	返回一个对象数组	也可以使用组合	document.getElementById("special").getElementByClassName("special");
+	
+	
+	有些浏览器没有getElementByClassName方法
+		function getElementByClassName(node,classname){
+			if(node.getElementByClassName){
+				//使用现有方法
+				return node.getElementByClassName(classname);
+			}else{
+				var results=new Array();
+				var elems=node.getElementByTagName("*");
+				for(var i=0;i<elems.length;i++){
+					if(elems[i].className.indexOf(classname)!=-1){
+						results[results.length]=elems[i];
+					}
+				}
+				return results;
+			}
+		}
+			
+			
+获取和设置属性
+	obj.getAttribute(attr)
+	与之前方法不同，改方法不属于document对象，只能通过元素节点调用
+	
+	setAttribute(attr);
+	如果使用了setAttribute()方法，但是查看源代码还是原来的东西，这是DOM的工作模式；先加载静态内容，再动态刷新，动态刷新不影响静态的内容；
+		这正是DOM的真正的威力；对页面内容刷新却不需要在浏览器刷新
+		
+		
+----------------------------------chapter4---------------------------------------------------------
+
+通过js改变元素节点属性
+
+非DOM解决方案
+	element.value="";		等价于element.setAttribute("value","");
+	但是该方法只能用于解决web文档，所以处理所有的dom节点还是建议使用，setAttribute方法
+	
+为了减少对站点的请求次数，尽量将js文件合并到一个js文件中
+
+事件处理函数
+	添加函数处理语句
+		event="JavaScript statements(s)"; 如果有多个JavaScript语句就放在引号之间，用逗号隔开就行
+		
+		onclick="showpic(this)";
+		
+	事件处理函数的机制
+		一旦事件发生，相应的js代码就会得到执行，被调用的函数就会返回一个值，
+		这个值将被传递给事件处理函数
+		
+		onclick="showpic(this);return false;";防止用户被带到目标窗口
+		
+js函数不用带<script>,直接写函数就可以了
+
+childNodes属性
+	在一个树节点上，childNodes属性可以用来获取任何一个元素的所有子元素，包含全部子元素的数组
+	element.childNodes
+	文档树中的空格换行符都会被解释为节点，所以比较多
+	
+	node.nodeType属性
+		这个属性可以让我们知道自己在与那种节点打交道
+		元素节点的	1
+		属性节点的	2
+		文本节点的	3
+		一共有12种，上面三种比较重要
+		
+nodeValue属性
+	用来改变一个文本节点的值，那就使用DOM提供的nodeValue属性，它用来得到和设置一个文本节点的值
+	
+	p标签并不是一个文本节点，要获得它的子元素的第一个才是文本节点
+	
+firstChild 和 LastChild
+	
+-------------------------------------chapter5-----------------------------------------
+平稳退化
+	使用正确的js脚本，即便在浏览器不支持js的情况下依然可以顺利浏览你的网站，完成最基本的操作
+	
+	在绝对必要的情况下才弹出新窗口
+	
+	window.open(url,name,features);
+		第二个参数是新窗口的名字
+	
+	open方法是使用BOM的一个好案例，它的功能对DOM无任何影响。这个方法只与浏览器有关
+	function pop(winurl){
+		window.open(winurl,"popurl","width=100,height=100");
+	}
+		伪协议
+			<a href="javascript:pop('http://www.baidu.com');">example</a>
+			老的浏览器打开这种连接会失败，禁用了js功能的浏览器什么也不会做
+			总之伪协议非常不好
+			
+	<a href="#" onclick="pop('http://www.baidu.com');return false;">example</a>
+	
+	为了某系禁用了js的也能访问
+		<a href="http://www.baidu.com" onclick="pop(this.getAttribute('href');return false;">example</a>
+		<a href="http://www.baidu.com" onclick="pop(this.href);return false;">example</a>
+		
+	好的css特点
+		文档结构与样式的分离可以确保网页平稳的退化，具备css美轮美奂，不具备的通用可以把网页内容正确的展示出来
+		
+分离JavaScript
+	var	links=document.getElementByTagName("a");
+	for(var i=0;i<links.length;i++){
+		if(links[i].getAttribute("class")=="pop"){
+			links[i].onclick=function(){
+				pop(this.getAttribute("href"));
+				return false;
+			}
+		}
+	}
+	
+	为了使之能够正确执行，防止js或者dom加载不完整。没有完整的DOM，getElementByTagName等方法就不能正常工作
+	必须让代码在html文档全部加载到浏览器之后马上开始执行。
+	window.onload=preparelinks;
+	function preparelinks(){
+		var	links=document.getElementByTagName("a");
+		for(var i=0;i<links.length;i++){
+			if(links[i].getAttribute("class")=="pop"){
+				links[i].onclick=function(){
+					pop(this.getAttribute("href"));
+					return false;
+				}
+			}
+		}
+	}
+	
+某些古老的浏览器无法理解DOM提供的方法和属性，因此某些浏览器支持js也不能运行部分脚本
+	function myFunction(){
+		if(document.getElementById){
+			statements using getElementById
+		}
+	}
+	
+	简洁版
+	if(!getElementById) return false;
+	
+	例子
+		window.onload=function(){
+			if(!document.getElementByTagName) return false;
+			var lnks=document.getElementByTagName("a");
+			for(var i=0;i<lnks.length;i++){
+				if(lnks[i].onclick=function(){
+					pop(this.getAttribute("href");
+					return false;
+				}
+			}
+		}
+		
+优化
+	尽量减少dom节点和遍历dom树的次数
+	js文件尽量放在/body标记之前
+	压缩js文件,注意命名规则
+		<script src="./sriptName.min.js"></script>
+	
+----------------------chapter6------------------------------------
+图片的页面代码就符合平稳退化的原则，如果页面禁掉了js，依然可以正确显示图片，通过连接可以访问
+
+通过添加挂钩，实现js与html分离
+	function prepareGalley(){
+		if(!document.getElementByTagName || !document.getElementById) return false;
+		if(!document.getElementById("image")) return false;//减少了对html的依赖，即便没有改id，也不会报错
+		---
+		//匿名函数
+		links[i].onclick=function(){
+			showPic(this);
+			return false;
+		}
+	}
+	
+	结构化程序设计应该符合一个入口一个出口
+	
+	window.onload=fun1;
+	window.onload=fun2;
+	上面的只有fun2会被绑定到onload事件当中
+	
+	简单的做法
+	window.onload=function(){
+		fun1();
+		fun2();
+	}
+	
+	弹性的最佳解决办法
+		不管你打算在页面加载完毕执行多少个函数，都可以应付自如
+		函数名称就是addLoadEvent，下面是函数要完成的操作
+			把现有的window.onload事件处理函数的值存入变量oldonload
+			如果在这个处理函数上还没有绑定任何函数，就像平时那样把新函数添加给它
+			如果已经绑定了，就把新函数追加到末尾
+		下面是代码
+			function addLoadEvent(func){
+				var oldonload=window.onload;
+				if(typeof window.onload!='function'){
+					window.onclick=func;
+				}else{
+					window.onload=function(){
+						oldonload();
+						func();
+					}
+				}
+			}
+			
+三元符操作
+	var v=condition ?  true(do ...):false(do ..);
+	
+	html.href	html-DOM的方法
+	dom.getAttribute("href")		DOM的方法
+			
+------------------------------chapter7---------------------------------
+innerHTML属性	html的方法
+	var do=document.getElementById("");
+	alert(do.innerHTML);
+	
+	do.innerHTML="<p>aaa<em>eee</em></p>";
+	
+浏览器实际显示的是dom节点树，在浏览器看来dom节点树才是文档
+	
+	createElement方法	创建元素节点
+		document.createElement(nodeName);
+		
+		var para=document.createElement("p");//此时此刻还是文档碎片
+		para.nodeName;//P
+		para.nodeType//1
+		
+	appendChild方法
+		parent.appendChild(child);
+		
+	createTextNode方法	创建文本节点
+		document.createText(text);//创建文本节点
+		para.appendChild(txt);//加入上面创建的文不节点
+		
+	insertBefor()	将新元素插入到一个现有元素的前面
+		新元素
+		目标元素
+		父元素：目标元素的父元素
+		parentElement.insertBefor(newElement,targetElement);
+		
+		编写insertAfter函数
+			目的就是引出如果不是最后一个，则通过下一个元素的位置前插
+			function insertAfter(newElement,targetElement){
+				var parent=targetElement.parentNode;
+				if(parent.lastChild=targetElement){
+					parent.appendChild(newElement);
+				}else{
+					parent.insertBefor(newElement,targetElement.nextSibling);
+				}
+			}
+			
+
+AJAX			
+	XMLHttpRequest对象
+	var request=new XMLHttpRequest();
+	request.send("GET","url",true);
+	request.readyState	//0表示未初始化	1表示正在加载	2表示加载完毕	3表示正在交互	4表示完成
+	异步加载
+	chrome不支持file协议
+	
+---------------------------chapter8--------------------------------------
+	<abbr>缩略语,带有下划线下划点
+	HTML5的文档声明
+		<!DOCTYPE html>
+	
+	文本节点
+		先序遍历
+	var variable;
+	for(variable in array)
+	
+	IE7.0之前是不支持abbr标签的
+	
+	accesskey
+		快捷键
+		
+--------------------------chapter9	CSS_DOM--------------------------------------
+结构层
+表示层
+行为层
+
+style属性
+	element.style.property
+	para.style	也是一个对象object
+	para.style.fontFamily	//如果font-family会被解释为一个运算表达式
+	
+<link rel="stylesheet" media="screen" href="styles/styles.css" />
+	但是dom不能检索，外部引入，和<style></style>引入的css，只能检索行间和dom设置的style
+	
+	许多dom属性是只读的
+	
+何时该用dom脚本设置样式
+	
+	自定义函数，获取下一个元素节点
+	function getNextElement(node){
+		if(node.nodeType==1){
+			return node;
+		}
+		if(node.nextSibling){
+			return getNextElement(node.nextSibling);
+		}
+		return null;
+	}
+	
+绝大多数浏览器对css伪类的支持不是很完整，但对dom却都很好的支持
+	doucument.getElementById("").onmouseover=function(){};\
+	
+改变元素的行为适用js	改变元素的呈现效果适用css		根据元素的行为去改变他的呈现效果，都可以
+
+通过更改className属性，不修改style属性
+	elem.setAttribute("class","intro");//intro是一个css样式表
+	ele.className	//设置class的属性	
+	function addClass(ele,value){
+		if(!ele.className){
+			ele.className=value;
+		}else{
+			newClassName=ele.className;
+			newClassName+="";
+			newClassName+=value;
+			ele.className=newClassName;
+		}
+	}
+	
+-------------------------------chapter10-------------------------------------------
+	ele.style.position="absolute";	//postion的合法值有static,fiexe,relative,absolute四种
+				//static是position属性的默认值，意思是有关元素将按照他们标记
+				//离出现的先后顺序出现在浏览器窗口,relative与static相似
+				//区别是position属性等于relative的元素(通过应用float属性)从文档
+				//的正常显示顺序里脱离出来。
+				//如果把某个元素的position设置为absolute，我们就可以把它摆到容纳它的
+				//"容器"的任何位置。这个容器要么是文档本身，要么是有着fixed或absolute属性的父元素
+				//这个元素在原始标记里出现的位置与它的显示位置无关，因为它的由top left right bottom决定
+				//你可以使用像素或者百分比作为单位设置这些属性的值
+				//最好只用left或right	top和bottom也是
+				
+	时间
+		var ele=setTimeout("function",interval);	//大多数时候把这个函数赋给一个变量比较好
+		clearTimeout(ele);		//取消这个行为
+		parseInt("32 ehe");		//js的函数，提取字符串的整数
+		
+		学习到了一个moven函数，可以指定元素，指定移动速度，指定移动到的位置
+		
+	实用的动画
+		W3C建议：除非浏览器允许用户“冻结”移动着的内容，否则就应该避免让内容在页面中移动
+		
+		onmouseover事件，当鼠标移动过去的时候，加载图片要时间
+		
+			css的overflow属性用来处理一个元素的尺寸超出其容器尺寸的情况。当一个元素包含的内容超出
+			自身的大小时，就会发生内容溢出，这种情况，你可以对内容进行”裁剪“，只让一部分内容可见。
+			你还可以通过overflow告诉浏览器是否显示滚动条，以便让用户看到其他部分
+			
+				overflow属性的四种:visible,hidden,scroll,auto
+				visible:不裁剪溢出的内容，浏览器把溢出的内容呈现在其容器元素的显示区域以外，全部内容可见
+				hidden:隐藏溢出的内容。内容只显示在其容器元素的显示区域里，这意味着只有一部分内容可见
+				scroll:类似于hidden，浏览器对溢出的内容进行隐藏，但是显示一个滚动条让用户能够...
+				auto:类似于scroll,但是浏览器只在溢出时候才显示滚动条，如果没有溢出，就不显示
+				
+			如果clearTimeout(ele);	会停止到当前位置，还是立即复原
+				会停止在当前的位置
+			
+			回去好好领悟一下例子
+				第一版，由于没有clearTimeout()导致同时移动到两个地方，执行两个函数，CPU飙升
+				原因，全局变量，你TM要是设置局部变量，又不能关闭另外一个的，所以只能绑定在元素上面
+				
+			最后一版
+				Math.ceil(number);返回一个不小于number的整数
+				Math.round(number);返回最接近的整数
+				
+--------------------------------------chapter11----------------------------------------------------
+Modernizr:
+	是一个开源的js库，利用它的丰富的特性检测功能，可以对HTML5文档更好的检测；
+	该js库一定要放在head元素中，文档的开头，便于呈现文档
+	要在IE添加新的元素，需要使用js创建该元素
+		document.createElement("");	//其他浏览器都不用
+		
+<canvas>	画布
+
+<video>		也要做好前后兼容	
+	<video src="movie.ogv" control>
+	
+HTML5还有好多技术，什么websocket了啦，等等等等
+
+
+--------------------------------------chapter12--------------------------------------------------------
+
+---------------------------------------js库--------------------------------------------------------
+主要介绍了一些js库，处理dom的，还有css的；代表性的有jquery
